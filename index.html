@@ -236,54 +236,57 @@
                 <div class="example-box">
                     <h3>ფაილის ინფორმაციის მიღება და მანიპულაცია:</h3>
                     <div class="code-block">
-                        using System;
-                        using System.IO;
+                        <pre><code class="language-cs">
+using System;
+using System.IO;
 
-                        class Program
-                        {
-                        static void Main()
-                        {
-                        // FileInfo ობიექტის შექმნა
-                        FileInfo fileInfo = new FileInfo(@"C:\test\example.txt");
+class Program
+{
+    static void Main()
+    {
+        // FileInfo ობიექტის შექმნა
+        FileInfo fileInfo = new FileInfo(@"C:\test\example.txt");
 
-                        Console.WriteLine("=== ფაილის ინფორმაცია ===");
-                        Console.WriteLine($"ფაილის სახელი: {fileInfo.Name}");
-                        Console.WriteLine($"სრული მისამართი: {fileInfo.FullName}");
-                        Console.WriteLine($"არსებობა: {fileInfo.Exists}");
+        Console.WriteLine("=== ფაილის ინფორმაცია ===");
+        Console.WriteLine($"ფაილის სახელი: {fileInfo.Name}");
+        Console.WriteLine($"სრული მისამართი: {fileInfo.FullName}");
+        Console.WriteLine($"არსებობა: {fileInfo.Exists}");
 
-                        if (fileInfo.Exists)
-                        {
-                        Console.WriteLine($"ზომა: {fileInfo.Length} ბაიტი");
-                        Console.WriteLine($"შექმნის დრო: {fileInfo.CreationTime}");
-                        Console.WriteLine($"ბოლო ცვლილება: {fileInfo.LastWriteTime}");
-                        Console.WriteLine($"გაფართოება: {fileInfo.Extension}");
-                        Console.WriteLine($"მშობელი დირექტორია: {fileInfo.Directory.Name}");
+        if (fileInfo.Exists)
+        {
+            Console.WriteLine($"ზომა: {fileInfo.Length} ბაიტი");
+            Console.WriteLine($"შექმნის დრო: {fileInfo.CreationTime}");
+            Console.WriteLine($"ბოლო ცვლილება: {fileInfo.LastWriteTime}");
+            Console.WriteLine($"გაფართოება: {fileInfo.Extension}");
+            Console.WriteLine($"მშობელი დირექტორია: {fileInfo.Directory.Name}");
 
-                        // ფაილის კოპირება
-                        string backupPath = @"C:\test\backup_example.txt";
-                        fileInfo.CopyTo(backupPath, true);
-                        Console.WriteLine($"ფაილი დაკოპირდა: {backupPath}");
-                        }
-                        else
-                        {
-                        Console.WriteLine("ფაილი არ არსებობს, შევქმნათ იგი...");
+            // ფაილის კოპირება
+            string backupPath = @"C:\test\backup_example.txt";
+            fileInfo.CopyTo(backupPath, true);
+            Console.WriteLine($"ფაილი დაკოპირდა: {backupPath}");
+        }
+        else
+        {
+            Console.WriteLine("ფაილი არ არსებობს, შევქმნათ იგი...");
 
-                        // ფაილის შექმნა და ტექსტის ჩაწერა
-                        using (StreamWriter writer = fileInfo.CreateText())
-                        {
-                        writer.WriteLine("ეს არის ტესტ ფაილი");
-                        writer.WriteLine("შექმნილია FileInfo კლასით");
-                        writer.WriteLine($"შექმნის დრო: {DateTime.Now}");
-                        }
+            // ფაილის შექმნა და ტექსტის ჩაწერა
+            using (StreamWriter writer = fileInfo.CreateText())
+            {
+                writer.WriteLine("ეს არის ტესტ ფაილი");
+                writer.WriteLine("შექმნილია FileInfo კლასით");
+                writer.WriteLine($"შექმნის დრო: {DateTime.Now}");
+            }
 
-                        Console.WriteLine("ფაილი შეიქმნა წარმატებით!");
+            Console.WriteLine("ფაილი შეიქმნა წარმატებით!");
 
-                        // ინფორმაციის განახლება
-                        fileInfo.Refresh();
-                        Console.WriteLine($"ახალი ზომა: {fileInfo.Length} ბაიტი");
-                        }
-                        }
-                        }
+            // ინფორმაციის განახლება
+            fileInfo.Refresh();
+            Console.WriteLine($"ახალი ზომა: {fileInfo.Length} ბაიტი");
+        }
+    }
+}
+</code></pre>
+
                     </div>
                 </div>
 
@@ -291,1028 +294,1075 @@
 
                 <div class="example-box">
                     <h3>სტატიკური მეთოდებით ფაილებთან მუშაობა:</h3>
+
                     <div class="code-block">
-                        using System;
-                        using System.IO;
+                        <pre><code class="language-cs">
+string filePath = @"C:\test\static_example.txt";
 
-                        class Program
-                        {
-                        static void Main()
-                        {
-                        string filePath = @"C:\test\static_example.txt";
+Console.WriteLine("=== File კლასის მაგალითი ===");
 
-                        Console.WriteLine("=== File კლასის მაგალითი ===");
+// ფაილის არსებობის შემოწმება
+if (File.Exists(filePath))
+{
+    Console.WriteLine("ფაილი უკვე არსებობს");
 
-                        // ფაილის არსებობის შემოწმება
-                        if (File.Exists(filePath))
-                        {
-                        Console.WriteLine("ფაილი უკვე არსებობს");
+    // მთელი ტექსტის კითხვა
+    string content = File.ReadAllText(filePath);
+    Console.WriteLine("ფაილის შიგთავსი:");
+    Console.WriteLine(content);
+}
+else
+{
+    Console.WriteLine("ფაილი არ არსებობს, შევქმნათ");
 
-                        // მთელი ტექსტის კითხვა
-                        string content = File.ReadAllText(filePath);
-                        Console.WriteLine("ფაილის შიგთავსი:");
-                        Console.WriteLine(content);
-                        }
-                        else
-                        {
-                        Console.WriteLine("ფაილი არ არსებობს, შევქმნათ");
-
-                        // ტექსტის ჩაწერა ახალ ფაილში
-                        string[] lines = {
+    // ტექსტის ჩაწერა ახალ ფაილში
+    string[] lines = {
                         "პირველი ხაზი",
                         "მეორე ხაზი",
                         "მესამე ხაზი",
                         $"შექმნის დრო: {DateTime.Now}"
                         };
 
-                        File.WriteAllLines(filePath, lines);
-                        Console.WriteLine("ფაილი შეიქმნა და ტექსტი ჩაიწერა");
+    File.WriteAllLines(filePath, lines);
+    Console.WriteLine("ფაილი შეიქმნა და ტექსტი ჩაიწერა");
+}
+
+// ყველა ხაზის კითხვა
+Console.WriteLine("\n=== ყველა ხაზი ცალ-ცალკე ===");
+string[] allLines = File.ReadAllLines(filePath);
+for (int i = 0; i < allLines.Length; i++)
+{
+    Console.WriteLine($"ხაზი {i + 1}: {allLines[i]}");
+}
+// ფაილის კოპირება
+string copyPath = @"C:\test\copy_static_example.txt";
+File.Copy(filePath, copyPath, true);
+Console.WriteLine($"\nფაილი დაკოპირდა: {copyPath}"); // დამატებითი ტექსტის ჩაწერა
+File.AppendAllText(filePath, $"\nდამატებული ხაზი: {DateTime.Now}");
+Console.WriteLine("დამატებითი ტექსტი ჩაიწერა");
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h2>მაგალითი 3: DirectoryInfo კლასის გამოყენება</h2>
+
+                <div class="example-box">
+                    <h3>დირექტორიებთან მუშაობა DirectoryInfo-ით:</h3>
+                    <div class="code-block">
+                        <pre><code class="language-cs"></code>
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        // DirectoryInfo ობიექტის შექმნა
+        DirectoryInfo dirInfo = new DirectoryInfo(@"C:\test\MyFolder");
+
+        Console.WriteLine("=== დირექტორიის ინფორმაცია ===");
+        Console.WriteLine($"დირექტორიის სახელი: {dirInfo.Name}");
+        Console.WriteLine($"სრული მისამართი: {dirInfo.FullName}");
+        Console.WriteLine($"არსებობა: {dirInfo.Exists}");
+
+        if (!dirInfo.Exists)
+        {
+            Console.WriteLine("დირექტორია არ არსებობს, შევქმნათ...");
+            dirInfo.Create();
+            Console.WriteLine("დირექტორია შეიქმნა!");
+        }
+
+        // ქვე-დირექტორიების შექმნა
+        DirectoryInfo subDir1 = dirInfo.CreateSubdirectory("Documents");
+        DirectoryInfo subDir2 = dirInfo.CreateSubdirectory("Images");
+        DirectoryInfo subDir3 = dirInfo.CreateSubdirectory("Videos");
+
+        Console.WriteLine("\nქვე-დირექტორიები შეიქმნა:");
+        Console.WriteLine($"- {subDir1.Name}");
+        Console.WriteLine($"- {subDir2.Name}");
+        Console.WriteLine($"- {subDir3.Name}");
+
+        // ფაილების შექმნა ქვე-დირექტორიებში
+        CreateSampleFile(Path.Combine(subDir1.FullName, "document1.txt"), "ეს არის დოკუმენტი");
+        CreateSampleFile(Path.Combine(subDir1.FullName, "document2.txt"), "მეორე დოკუმენტი");
+        CreateSampleFile(Path.Combine(subDir2.FullName, "image1.jpg"), "ფოტოს მონაცემები");
+        CreateSampleFile(Path.Combine(subDir3.FullName, "video1.mp4"), "ვიდეოს მონაცემები");
+
+        Console.WriteLine("\n=== დირექტორიის შიგთავსი ===");
+
+        // ყველა ქვე-დირექტორიის ჩვენება
+        DirectoryInfo[] directories = dirInfo.GetDirectories();
+        Console.WriteLine("ქვე-დირექტორიები:");
+        foreach (DirectoryInfo dir in directories)
+        {
+            Console.WriteLine($" 📁 {dir.Name} (შექმნის დრო: {dir.CreationTime.ToShortDateString()})");
+
+            // ყველა ფაილის ჩვენება ამ დირექტორიაში
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                Console.WriteLine($" 📄 {file.Name} ({file.Length} ბაიტი)");
+            }
+        }
+
+        // მშობელი დირექტორიის ინფორმაცია
+        if (dirInfo.Parent != null)
+        {
+            Console.WriteLine($"\nმშობელი დირექტორია: {dirInfo.Parent.Name}");
+        }
+    }
+
+    static void CreateSampleFile(string filePath, string content)
+    {
+        File.WriteAllText(filePath, content);
+    }
+}
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h2>მაგალითი 4: Directory კლასის გამოყენება</h2>
+
+                <div class="example-box">
+                    <h3>სტატიკური მეთოდებით დირექტორიებთან მუშაობა:</h3>
+                    <div class="code-block">
+                        <pre><code class="language-cs">
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string baseDir = @"C:\test\StaticDirectory";
+
+        Console.WriteLine("=== Directory კლასის მაგალითი ===");
+        Console.WriteLine($"მიმდინარე დირექტორია: {Directory.GetCurrentDirectory()}");
+
+        // დირექტორიის შექმნა
+        if (!Directory.Exists(baseDir))
+        {
+            Directory.CreateDirectory(baseDir);
+            Console.WriteLine($"დირექტორია შეიქმნა: {baseDir}");
+        }
+
+        // რამდენიმე ქვე-დირექტორიის შექმნა
+        string[] subDirs = { "Folder1", "Folder2", "Folder3" };
+        foreach (string subDir in subDirs)
+        {
+            string fullPath = Path.Combine(baseDir, subDir);
+            Directory.CreateDirectory(fullPath);
+
+            // ყველა ქვე-დირექტორიაში ფაილების შექმნა
+            for (int i = 1; i <= 3; i++)
+            {
+                string fileName = $"file{i}.txt";
+                string
+                filePath = Path.Combine(fullPath, fileName);
+                File.WriteAllText(filePath, $"ეს არის ფაილი {i} დირექტორიაში {subDir}");
+            }
+        }
+
+        Console.WriteLine("\n === ყველა ფაილის ჩვენება=== ");
+        // ყველა ფაილის მოძიება (ყველა ქვე-დირექტორიაში)
+        string[] allFiles = Directory.GetFiles(baseDir, " *.txt", SearchOption.AllDirectories);
+        foreach (string file in
+                    allFiles)
+        {
+            FileInfo fileInfo = new FileInfo(file);
+            Console.WriteLine($"📄 {fileInfo.Name} - {fileInfo.DirectoryName} ({fileInfo.Length} ბაიტი)");
+        }
+        Console.WriteLine("\n === ყველა დირექტორიის ჩვენება === ");
+        // ყველა ქვე-დირექტორიის მოძიება
+        string[] allDirs = Directory.GetDirectories(baseDir, " *", SearchOption.AllDirectories);
+        foreach (string dir in
+                        allDirs)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(dir);
+            Console.WriteLine($"📁 {dirInfo.Name} - {dirInfo.FullName}");
+        } // განსაკუთრებული ფაილების მოძიება
+        Console.WriteLine("\n==='.txt' ფაილების მოძიება===");
+        string[] txtFiles = Directory.GetFiles(baseDir, " *.txt", SearchOption.TopDirectoryOnly);
+        Console.WriteLine($"მთავარ დირექტორიაში ნაპოვნია {txtFiles.Length} .txt ფაილი");
+        // დირექტორიის გადატანა
+        string newLocation = @"C:\test\MovedDirectory";
+        if
+        (Directory.Exists(newLocation))
+        { Directory.Delete(newLocation, true); }
+        Directory.Move(baseDir, newLocation);
+        Console.WriteLine($"\nდირექტორია გადატანილია: {newLocation} ");
+    }
+}
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h2>მაგალითი 5: კომპლექსური ფაილური სისტემის მენეჯერი</h2>
+
+                <div class="example-box">
+                    <h3>ფაილური სისტემის მენეჯერი ყველა კლასის გამოყენებით:</h3>
+                    <div class="code-block">
+                        <pre><code class="language-cs">
+using System;
+using System.IO;
+using System.Linq;
+
+class FileSystemManager
+{
+    static void Main()
+    {
+        string workingDirectory = @"C:\test\FileManager";
+
+        // მუშა დირექტორიის შექმნა
+        Directory.CreateDirectory(workingDirectory);
+
+        Console.WriteLine("=== ფაილური სისტემის მენეჯერი ===\n");
+
+        bool exit = false;
+        while (!exit)
+        {
+            ShowMenu();
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    CreateFileStructure(workingDirectory);
+                    break;
+                case "2":
+                    ShowDirectoryInfo(workingDirectory);
+                    break;
+                case "3":
+                    SearchFiles(workingDirectory);
+                    break;
+                case "4":
+                    CopyFiles(workingDirectory);
+                    break;
+                case "5":
+                    CleanupFiles(workingDirectory);
+                    break;
+                case "6":
+                    exit = true;
+                    break;
+                default:
+                    Console.WriteLine("არასწორი არჩევანი!");
+                    break;
+            }
+
+            if (!exit)
+            {
+                Console.WriteLine("\nდააჭირეთ ნებისმიერ ღილაკს გასაგრძელებლად...");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+    }
+
+    static void ShowMenu()
+    {
+        Console.WriteLine("აირჩიეთ ოპერაცია:");
+        Console.WriteLine("1. ფაილური სტრუქტურის შექმნა");
+        Console.WriteLine("2. დირექტორიის ინფორმაციის ჩვენება");
+        Console.WriteLine("3. ფაილების ძიება");
+        Console.WriteLine("4. ფაილების კოპირება");
+        Console.WriteLine("5. ფაილების გაწმენდა");
+        Console.WriteLine("6. გამოსვლა");
+        Console.Write("თქვენი არჩევანი: ");
+    }
+
+    static void CreateFileStructure(string baseDir)
+    {
+        Console.WriteLine("ფაილური სტრუქტურის შექმნა...\n");
+
+        // დირექტორიების შექმნა DirectoryInfo-ით
+        DirectoryInfo mainDir = new DirectoryInfo(baseDir);
+
+        DirectoryInfo documentsDir = mainDir.CreateSubdirectory("Documents");
+        DirectoryInfo imagesDir = mainDir.CreateSubdirectory("Images");
+        DirectoryInfo backupDir = mainDir.CreateSubdirectory("Backup");
+
+        // ფაილების შექმნა FileInfo-ით
+        CreateDocumentFile(documentsDir.FullName, "report.txt", "ეს არის ანგარიშის ფაილი");
+        CreateDocumentFile(documentsDir.FullName, "notes.txt", "ჩანაწერები და შენიშვნები");
+        CreateDocumentFile(documentsDir.FullName, "log.txt", GenerateLogContent());
+
+        CreateDocumentFile(imagesDir.FullName, "photo1.jpg", "ფოტო 1 - მონაცემები");
+        CreateDocumentFile(imagesDir.FullName, "photo2.png", "ფოტო 2 - მონაცემები");
+
+        Console.WriteLine("ფაილური სტრუქტურა შეიქმნა წარმატებით!");
+    }
+
+    static void CreateDocumentFile(string directory, string fileName, string content)
+    {
+        FileInfo fileInfo = new FileInfo(Path.Combine(directory, fileName));
+
+        using (StreamWriter writer = fileInfo.CreateText())
+        {
+            writer.WriteLine(content);
+            writer.WriteLine($"შექმნის დრო: {DateTime.Now}");
+            writer.WriteLine($"ზომა: {content.Length} სიმბოლო");
+        }
+
+        Console.WriteLine($"შეიქმნა: {fileInfo.Name}");
+    }
+
+    static string GenerateLogContent()
+    {
+        return $@"=== სისტემის ლოგი ===
+                            დრო: {DateTime.Now}
+                            მომხმარებელი: System
+                            ქმედება: ფაილების შექმნა
+                            სტატუსი: წარმატებული
+                            დეტალები: ფაილური სტრუქტურა შეიქმნა";
+    }
+
+    static void ShowDirectoryInfo(string baseDir)
+    {
+        Console.WriteLine("დირექტორიის ინფორმაცია:\n");
+
+        DirectoryInfo dirInfo = new DirectoryInfo(baseDir);
+
+        Console.WriteLine($"დირექტორია: {dirInfo.Name}");
+        Console.WriteLine($"სრული მისამართი: {dirInfo.FullName}");
+        Console.WriteLine($"შექმნის დრო: {dirInfo.CreationTime}");
+        Console.WriteLine($"ბოლო ცვლილება: {dirInfo.LastWriteTime}");
+
+        // ქვე-დირექტორიების ინფორმაცია
+        DirectoryInfo[] subDirs = dirInfo.GetDirectories();
+        Console.WriteLine($"\nქვე-დირექტორიები ({subDirs.Length}):");
+
+        foreach (DirectoryInfo subDir in subDirs)
+        {
+            FileInfo[] files = subDir.GetFiles();
+            long totalSize = files.Sum(f => f.Length);
+
+            Console.WriteLine($" 📁 {subDir.Name}");
+            Console.WriteLine($" ფაილები: {files.Length}");
+            Console.WriteLine($" მთლიანი ზომა: {totalSize} ბაიტი");
+
+            foreach (FileInfo file in files)
+            {
+                Console.WriteLine($" 📄 {file.Name} ({file.Length} ბაიტი)");
+            }
+        }
+    }
+
+    static void SearchFiles(string baseDir)
+    {
+        Console.Write("შეიყვანეთ საძიებო პატერნი (მაგ: *.txt): ");
+        string pattern = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(pattern))
+            pattern = "*.*";
+
+        Console.WriteLine($"\nძიება: {pattern}\n");
+
+        try
+        {
+            string[] files = Directory.GetFiles(baseDir, pattern, SearchOption.AllDirectories);
+
+            Console.WriteLine($"ნაპოვნია {files.Length} ფაილი:");
+
+            foreach (string file in files)
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                Console.WriteLine($"📄 {fileInfo.Name}");
+                Console.WriteLine($" მისამართი: {fileInfo.DirectoryName}");
+                Console.WriteLine($" ზომა: {fileInfo.Length} ბაიტი");
+                Console.WriteLine($" ბოლო ცვლილება: {fileInfo.LastWriteTime}");
+                Console.WriteLine();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"შეცდომა ძიებისას: {ex.Message}");
+        }
+    }
+
+    static void CopyFiles(string baseDir)
+    {
+        Console.WriteLine("ფაილების კოპირება Backup დირექტორიაში...\n");
+
+        string backupDir = Path.Combine(baseDir, "Backup");
+        Directory.CreateDirectory(backupDir);
+
+        // ყველა .txt ფაილის კოპირება
+        string[] txtFiles = Directory.GetFiles(baseDir, "*.txt", SearchOption.AllDirectories);
+
+        foreach (string file in txtFiles)
+        {
+            FileInfo sourceFile = new FileInfo(file);
+
+            // თუ ფაილი უკვე backup დირექტორიაშია, გამოვტოვოთ
+            if (sourceFile.DirectoryName.Contains("Backup"))
+                continue;
+
+            string backupFileName = $"backup_{DateTime.Now:yyyyMMdd}_{sourceFile.Name}";
+            string backupPath = Path.Combine(backupDir, backupFileName);
+
+            sourceFile.CopyTo(backupPath, true);
+            Console.WriteLine($"დაკოპირდა: {sourceFile.Name} -> {backupFileName}");
+        }
+
+        Console.WriteLine("\nკოპირება დასრულდა!");
+    }
+
+    static void CleanupFiles(string baseDir)
+    {
+        Console.WriteLine("ძველი backup ფაილების გაწმენდა...\n");
+
+        string backupDir = Path.Combine(baseDir, "Backup");
+
+        if (!Directory.Exists(backupDir))
+        {
+            Console.WriteLine("Backup დირექტორია არ არსებობს.");
+            return;
+        }
+
+        DirectoryInfo backupDirInfo = new DirectoryInfo(backupDir);
+        FileInfo[] backupFiles = backupDirInfo.GetFiles();
+
+        // 1 დღეზე ძველი ფაილების წაშლა
+        DateTime cutoffDate = DateTime.Now.AddDays(-1);
+        int deletedCount = 0;
+
+        foreach (FileInfo file in backupFiles)
+        {
+            if (file.CreationTime < cutoffDate)
+            {
+                Console.WriteLine($"იშლება: {file.Name} (შექმნილია:{file.CreationTime})");
+                file.Delete();
+                deletedCount++;
+            }
+        }
+        Console.WriteLine($"\nწაიშალა{deletedCount}ძველი ფაილი.");
+    }
+}
+                            </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- კოდის მაგალითები -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('code-examples')">
+                <span>🔨 დამატებითი კოდის მაგალითები</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="code-examples">
+                <h2>მაგალითი: ფაილების ფილტრაცია და სორტირება</h2>
+
+                <div class="code-block">
+                    <pre><code class="language-cs">
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection.Metadata;
+
+class FileFilterExample
+{
+    static void Main()
+    {
+        string directory = @"C:\test\FilterExample";
+        Directory.CreateDirectory(directory);
+
+        // ტესტ ფაილების შექმნა
+        CreateTestFiles(directory);
+
+        Console.WriteLine("=== ფაილების ფილტრაცია და სორტირება ===\n");
+
+        DirectoryInfo dirInfo = new DirectoryInfo(directory);
+        FileInfo[] allFiles = dirInfo.GetFiles();
+
+        // ზომის მიხედვით სორტირება (კლებადობით)
+        var largestFiles = allFiles
+        .OrderByDescending(f => f.Length)
+        .Take(5);
+
+        Console.WriteLine("5 ყველაზე დიდი ფაილი:");
+        foreach (var file in largestFiles)
+        {
+            Console.WriteLine($"📄 {file.Name} - {file.Length} ბაიტი");
+        }
+
+        // ბოლოს შეცვლილი ფაილები
+        var recentFiles = allFiles
+        .Where(f => f.LastWriteTime > DateTime.Now.AddDays(-1))
+        .OrderBy(f => f.LastWriteTime);
+
+        Console.WriteLine("\nბოლო 24 საათში შეცვლილი ფაილები:");
+        foreach (var file in recentFiles)
+        {
+            Console.WriteLine($"📄 {file.Name} - {file.LastWriteTime}");
+        }
+
+        // გაფართოების მიხედვით დაჯგუფება
+        var filesByExtension = allFiles
+        .GroupBy(f => f.Extension.ToLower())
+        .OrderBy(g => g.Key);
+
+        Console.WriteLine("\nფაილები გაფართოების მიხედვით:");
+        foreach (var group in filesByExtension)
+        {
+            Console.WriteLine($"\n{group.Key} ({group.Count()} ფაილი):");
+            foreach (var file in group.OrderBy(f => f.Name))
+            {
+                Console.WriteLine($" 📄 {file.Name}");
+            }
+        }
+    }
+
+    static void CreateTestFiles(string directory)
+    {
+        Random random = new Random();
+        string[] extensions = { ".txt", ".log", ".dat", ".tmp", ".bak" };
+        string[] names = { "document", "report", "data", "backup", "temp", "log", "config" };
+
+        for (int i = 0; i < 15; i++)
+        {
+            string
+            fileName = $"{names[random.Next(names.Length)]}{i}{extensions[random.Next(extensions.Length)]}";
+            string filePath = Path.Combine(directory, fileName); // შემთხვევითი ზომის შიგთავსი string
+            content = new string('X', random.Next(100, 2000));
+            File.WriteAllText(filePath, content); //
+            შემთხვევითი თარიღის დაყენება DateTime randomDate = DateTime.Now.AddDays(-random.Next(0,
+            10)).AddHours(-random.Next(0, 24));
+            File.SetLastWriteTime(filePath, randomDate);
+        }
+    }
+}
+                    </code></pre>
+                </div>
+
+                <h2>მაგალითი: ფაილების მონიტორინგი</h2>
+
+                <div class="code-block">
+                    <pre><code class="language-cs">
+using System;
+using System.IO;
+
+class FileMonitorExample
+{
+    private static FileSystemWatcher watcher;
+
+    static void Main()
+    {
+        string monitorPath = @"C:\test\Monitor";
+        Directory.CreateDirectory(monitorPath);
+
+        Console.WriteLine($"ფაილების მონიტორინგი: {monitorPath}");
+        Console.WriteLine("დააჭირეთ 'q'-ს გასასვლელად\n");
+
+        // FileSystemWatcher-ის კონფიგურაცია
+        watcher = new FileSystemWatcher(monitorPath);
+
+        // ყველა ტიპის ცვლილების მონიტორინგი
+        watcher.NotifyFilter = NotifyFilters.CreationTime
+        | NotifyFilters.LastWrite
+        | NotifyFilters.FileName
+        | NotifyFilters.DirectoryName;
+
+        // ყველა ფაილის მონიტორინგი
+        watcher.Filter = "*.*";
+
+        // ივენთების დაერთება
+        watcher.Created += OnCreated;
+        watcher.Changed += OnChanged;
+        watcher.Deleted += OnDeleted;
+        watcher.Renamed += OnRenamed;
+
+        // მონიტორინგის დაწყება
+        watcher.EnableRaisingEvents = true;
+
+        // ტესტ ფაილების შექმნა
+        CreateTestMonitorFiles(monitorPath);
+
+        // მომხმარებლის შეყვანის მოლოდინი
+        char key;
+        do
+        {
+            key = Console.ReadKey(true).KeyChar;
+        } while (key != 'q' && key != 'Q');
+
+        watcher.Dispose();
+        Console.WriteLine("\nმონიტორინგი გათიშულია.");
+    }
+
+    private static void OnCreated(object sender, FileSystemEventArgs e)
+    {
+        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] ✅ შეიქმნა: {e.Name}");
+        ShowFileInfo(e.FullPath);
+    }
+
+    private static void OnChanged(object sender, FileSystemEventArgs e)
+    {
+        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] ✏️ შეცვლილია: {e.Name}");
+        ShowFileInfo(e.FullPath);
+    }
+
+    private static void OnDeleted(object sender, FileSystemEventArgs e)
+    {
+        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] ❌ წაიშალა: {e.Name}");
+    }
+
+    private static void OnRenamed(object sender, RenamedEventArgs e)
+    {
+        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] 🔄 გადაკრებილია: {e.OldName} -> {e.Name}");
+    }
+
+    private static void ShowFileInfo(string filePath)
+    {
+        try
+        {
+            if (File.Exists(filePath))
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                Console.WriteLine($" 📊 ზომა: {fileInfo.Length} ბაიტი, ბოლო ცვლილება: {fileInfo.LastWriteTime}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($" ⚠️ შეცდომა ინფორმაციის მიღებისას: {ex.Message}");
+        }
+    }
+
+    private static void CreateTestMonitorFiles(string directory)
+    {
+        Console.WriteLine("ტესტ ფაილების შექმნა...\n");
+
+        // 3 წამში ფაილების შექმნა
+        System.Threading.Timer timer = new System.Threading.Timer(_ =>
+        {
+            try
+            {
+                string fileName = $"test_{DateTime.Now:HHmmss}.txt";
+                string filePath = Path.Combine(directory, fileName);
+                File.WriteAllText(filePath, $"ტესტ ფაილი შექმნილია: {DateTime.Now}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"შეცდომა ტესტ ფაილის შექმნისას: {ex.Message}");
+            }
+        }, null, TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5));
+
+        // ტაიმერი გავაჩეროთ 20 წამში
+        System.Threading.Timer stopTimer = new System.Threading.Timer(_ =>
+        {
+            timer.Dispose();
+            Console.WriteLine("ტესტ ფაილების შექმნა შეწყდა.\n");
+        }, null, TimeSpan.FromSeconds(20), Timeout.InfiniteTimeSpan);
+    }
+}
+                            </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- საშინაო დავალება -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('homework')">
+                <span>📝 საშინაო დავალება</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="homework">
+                <div class="homework-box">
+                    <h2>საშინაო დავალება: ფაილური ორგანაიზერი</h2>
+
+                    <p><strong>მიზანი:</strong> შექმენით C# პროგრამა, რომელიც ავტომატურად დაალაგებს
+                        ფაილებს მათი ტიპის მიხედვით.</p>
+
+                    <h3>ძირითადი მოთხოვნები:</h3>
+
+                    <div class="task-item">
+                        <h4>1. ძირითადი ფუნქციონალი (40 ქულა)</h4>
+                        <ul>
+                            <li>შექმენით პროგრამა, რომელიც მიიღებს მისამართს დირექტორიისა</li>
+                            <li>პროგრამამ უნდა შექმნას ქვე-დირექტორიები: "Documents", "Images",
+                                "Videos", "Music", "Others"</li>
+                            <li>ყველა ფაილი უნდა გადატანილი იქნას შესაბამის ქვე-დირექტორიაში მისი
+                                გაფართოების მიხედვით</li>
+                            <li>გამოიყენეთ როგორც FileInfo/DirectoryInfo, ასევე File/Directory კლასები
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="task-item">
+                        <h4>2. ფაილების კატეგორიზაცია (20 ქულა)</h4>
+                        <ul>
+                            <li><strong>Documents:</strong> .txt, .doc, .docx, .pdf, .rtf</li>
+                            <li><strong>Images:</strong> .jpg, .jpeg, .png, .gif, .bmp</li>
+                            <li><strong>Videos:</strong> .mp4, .avi, .mkv, .wmv, .mov</li>
+                            <li><strong>Music:</strong> .mp3, .wav, .flac, .aac</li>
+                            <li><strong>Others:</strong> ყველა სხვა ფაილი</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-item">
+                        <h4>3. ანგარიშგება (20 ქულა)</h4>
+                        <ul>
+                            <li>შექმენით ანგარიში, რომელიც შეიცავს:</li>
+                            <li>დამუშავებული ფაილების რაოდენობას</li>
+                            <li>ყველა კატეგორიის ფაილების რაოდენობას</li>
+                            <li>მთლიან ზომას ყველა კატეგორიისთვის</li>
+                            <li>ანგარიში შეინახოს "OrganizationReport.txt" ფაილში</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-item">
+                        <h4>4. შეცდომების მართვა (10 ქულა)</h4>
+                        <ul>
+                            <li>დაამუშავეთ შესაძლო შეცდომები (ფაილი დაკავებულია, წვდომის უფლება არ არის,
+                                და ა.შ.)</li>
+                            <li>აჩვენეთ მომხმარებელს შესაბამისი შეტყობინებები</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-item">
+                        <h4>5. დამატებითი ფუნქციები (ბონუსი 10 ქულა)</h4>
+                        <ul>
+                            <li>დუბლიკატი ფაილების აღმოჩენა (ერთნაირი სახელი და ზომა)</li>
+                            <li>ძველი ფაილების (1 თვეზე მეტი) ცალკე "Archive" ფოლდერში გადატანა</li>
+                            <li>ფაილების ზომის მიხედვით დალაგება თითოეულ კატეგორიაში</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="homework-box">
+                    <h3>შესრულების ინსტრუქციები:</h3>
+                    <ol>
+                        <li><strong>პროექტის შექმნა:</strong> შექმენით ახალი C# Console Application
+                            პროექტი</li>
+                        <li><strong>კოდის დაწერა:</strong> დაწერეთ FileOrganizer კლასი მოცემული
+                            სტრუქტურის მიხედვით</li>
+                        <li><strong>ტესტირება:</strong> შექმენით ტესტ დირექტორია სხვადასხვა ტიპის
+                            ფაილებით</li>
+                        <li><strong>ანგარიშის შემოწმება:</strong> დარწმუნდით, რომ OrganizationReport.txt
+                            სწორად იქმნება</li>
+                        <li><strong>შეცდომების ტესტირება:</strong> შეამოწმეთ რა ხდება არასწორი
+                            მისამართის შეყვანისას</li>
+                    </ol>
+                </div>
+
+                <div class="homework-box">
+                    <h3>შეფასების კრიტერიუმები:</h3>
+                    <ul>
+                        <li><strong>კოდის ხარისხი (20%):</strong> სუფთა, კომენტირებული კოდი</li>
+                        <li><strong>ფუნქციონალურობა (40%):</strong> ყველა მოთხოვნის შესრულება</li>
+                        <li><strong>შეცდომების მართვა (20%):</strong> try-catch ბლოკების სწორი
+                            გამოყენება</li>
+                        <li><strong>ანგარიშგება (20%):</strong> დეტალური და ინფორმატიული ანგარიშის
+                            შექმნა</li>
+                    </ul>
+                </div>
+
+                <div class="homework-box">
+                    <h3>გაგზავნის ინსტრუქცია:</h3>
+                    <p><strong>ვადა:</strong> მომავალი სესიიდან 1 კვირა</p>
+                    <p><strong>ჩასაბარებელი ფაილები:</strong></p>
+                    <ul>
+                        <li>Program.cs - თქვენი მთავარი კოდი</li>
+                        <li>Screenshot.png - სკრინშოტი მუშა პროგრამისა</li>
+                        <li>TestReport.txt - ტესტირების ანგარიში</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <strong>მნიშვნელოვანი შენიშვნები:</strong>
+                    <ul>
+                        <li>ყოველთვის გამოიყენეთ using statements ფაილებთან მუშაობისას</li>
+                        <li>შეამოწმეთ ფაილის არსებობა წაშლისა და გადატანის წინ</li>
+                        <li>არ დაავიწყდეთ Refresh() მეთოდის გამოძახება FileInfo/DirectoryInfo
+                            ობიექტებისთვის</li>
+                        <li>ბექაპი გაუკეთეთ ტესტ ფაილებს ძირითადი ტესტირების წინ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- დამატებითი რესურსები -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('resources')">
+                <span>📚 დამატებითი რესურსები და რჩევები</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="resources">
+                <h2>სასარგებლო რჩევები</h2>
+
+                <div class="theory-box">
+                    <h3>როდის გამოვიყენოთ FileInfo vs File:</h3>
+                    <ul>
+                        <li><strong>გამოიყენეთ FileInfo როდესაც:</strong>
+                            <ul>
+                                <li>ერთ ფაილთან რამდენჯერმე მუშაობთ</li>
+                                <li>ფაილის მრავალი თვისება გჭირდებათ</li>
+                                <li>ობიექტ-ორიენტირებული მიდგომა გირჩევნიათ</li>
+                            </ul>
+                        </li>
+                        <li><strong>გამოიყენეთ File როდესაც:</strong>
+                            <ul>
+                                <li>ერთჯერადი, სწრაფი ოპერაციები გჭირდებათ</li>
+                                <li>მეხსიერების ეკონომია მნიშვნელოვანია</li>
+                                <li>მარტივი utility ფუნქციები იწერთ</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="theory-box">
+                    <h3>შესრულების ოპტიმიზაცია:</h3>
+                    <ul>
+                        <li><strong>დიდი ფაილებისთვის:</strong> გამოიყენეთ FileStream buffer-ით</li>
+                        <li><strong>მრავალი ფაილისთვის:</strong> მარტო Directory.GetFiles() ერთხელ
+                            გამოიძახეთ</li>
+                        <li><strong>Recursive ძიებისთვის:</strong> SearchOption.AllDirectories
+                            გამოიყენეთ</li>
+                        <li><strong>მონიტორინგისთვის:</strong> FileSystemWatcher უფრო ეფექტურია მუდმივი
+                            polling-ისა</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h3>ხშირი შეცდომები და მათი აცილება:</h3>
+                    <ul>
+                        <li><strong>Path.Combine() გამოიყენეთ:</strong> არა string concatenation</li>
+                        <li><strong>Using statements:</strong> ყოველთვის გამოიყენეთ IDisposable
+                            რესურსებისთვის</li>
+                        <li><strong>Exception handling:</strong> UnauthorizedAccessException,
+                            IOException დაამუშავეთ</li>
+                        <li><strong>File locks:</strong> შეამოწმეთ ფაილი დაკავებული თუ არა რა</li>
+                    </ul>
+                </div>
+
+                <h2>პრაქტიკული რჩევები კოდის ხარისხისთვის</h2>
+
+                <div class="method-card">
+                    <div class="method-name">კოდის სტრუქტურა:</div>
+                    <div class="code-block">
+                        // ✅ სწორი - ზოგადი მეთოდების გამოყენება
+                        public static class FileHelper
+                        {
+                        public static bool IsValidFile(string filePath)
+                        {
+                        return File.Exists(filePath) && new FileInfo(filePath).Length > 0;
                         }
 
-                        // ყველა ხაზის კითხვა
-                        Console.WriteLine("\n=== ყველა ხაზი ცალ-ცალკე ===");
-                        string[] allLines = File.ReadAllLines(filePath);
-                        for (int i = 0; i < allLines.Length; i++) { Console.WriteLine($"ხაზი {i + 1}: {allLines[i]}"); }
-                            // ფაილის კოპირება string copyPath=@"C:\test\copy_static_example.txt"; File.Copy(filePath,
-                            copyPath, true); Console.WriteLine($"\nფაილი დაკოპირდა: {copyPath}"); // დამატებითი ტექსტის
-                            ჩაწერა File.AppendAllText(filePath, $"\nდამატებული ხაზი: {DateTime.Now}");
-                            Console.WriteLine("დამატებითი ტექსტი ჩაიწერა"); } } </div>
+                        public static string GetFileCategory(string extension)
+                        {
+                        var categories = new Dictionary<string, string[]>
+                            {
+                            {"Documents", new[] {".txt", ".doc", ".pdf"}},
+                            {"Images", new[] {".jpg", ".png", ".gif"}},
+                            // ...
+                            };
+
+                            return categories.FirstOrDefault(c =>
+                            c.Value.Contains(extension.ToLower())).Key ?? "Others";
+                            }
+                            }
+
+                            // ❌ არასწორი - გამეორებადი კოდი
+                            if (file.EndsWith(".txt") || file.EndsWith(".doc") || file.EndsWith(".pdf"))
+                            {
+                            // documents...
+                            }
+                            if (file.EndsWith(".jpg") || file.EndsWith(".png") || file.EndsWith(".gif"))
+                            {
+                            // images...
+                            }
                     </div>
+                </div>
 
-                    <h2>მაგალითი 3: DirectoryInfo კლასის გამოყენება</h2>
+                <div class="method-card">
+                    <div class="method-name">შეცდომების სწორი მართვა:</div>
+                    <div class="code-block">
+                        // ✅ სწორი - კონკრეტული exceptions
+                        try
+                        {
+                        file.MoveTo(destinationPath);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                        Console.WriteLine("არ გაქვთ წვდომის უფლება ამ ფაილზე");
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                        Console.WriteLine("დანიშნულების დირექტორია არ არსებობს");
+                        }
+                        catch (IOException ex) when (ex.HResult == -2147024864) // File in use
+                        {
+                        Console.WriteLine("ფაილი გამოიყენება სხვა პროცესის მიერ");
+                        }
 
-                    <div class="example-box">
-                        <h3>დირექტორიებთან მუშაობა DirectoryInfo-ით:</h3>
-                        <div class="code-block">
-                            using System;
-                            using System.IO;
-
-                            class Program
-                            {
-                            static void Main()
-                            {
-                            // DirectoryInfo ობიექტის შექმნა
-                            DirectoryInfo dirInfo = new DirectoryInfo(@"C:\test\MyFolder");
-
-                            Console.WriteLine("=== დირექტორიის ინფორმაცია ===");
-                            Console.WriteLine($"დირექტორიის სახელი: {dirInfo.Name}");
-                            Console.WriteLine($"სრული მისამართი: {dirInfo.FullName}");
-                            Console.WriteLine($"არსებობა: {dirInfo.Exists}");
-
-                            if (!dirInfo.Exists)
-                            {
-                            Console.WriteLine("დირექტორია არ არსებობს, შევქმნათ...");
-                            dirInfo.Create();
-                            Console.WriteLine("დირექტორია შეიქმნა!");
-                            }
-
-                            // ქვე-დირექტორიების შექმნა
-                            DirectoryInfo subDir1 = dirInfo.CreateSubdirectory("Documents");
-                            DirectoryInfo subDir2 = dirInfo.CreateSubdirectory("Images");
-                            DirectoryInfo subDir3 = dirInfo.CreateSubdirectory("Videos");
-
-                            Console.WriteLine("\nქვე-დირექტორიები შეიქმნა:");
-                            Console.WriteLine($"- {subDir1.Name}");
-                            Console.WriteLine($"- {subDir2.Name}");
-                            Console.WriteLine($"- {subDir3.Name}");
-
-                            // ფაილების შექმნა ქვე-დირექტორიებში
-                            CreateSampleFile(Path.Combine(subDir1.FullName, "document1.txt"), "ეს არის დოკუმენტი");
-                            CreateSampleFile(Path.Combine(subDir1.FullName, "document2.txt"), "მეორე დოკუმენტი");
-                            CreateSampleFile(Path.Combine(subDir2.FullName, "image1.jpg"), "ფოტოს მონაცემები");
-                            CreateSampleFile(Path.Combine(subDir3.FullName, "video1.mp4"), "ვიდეოს მონაცემები");
-
-                            Console.WriteLine("\n=== დირექტორიის შიგთავსი ===");
-
-                            // ყველა ქვე-დირექტორიის ჩვენება
-                            DirectoryInfo[] directories = dirInfo.GetDirectories();
-                            Console.WriteLine("ქვე-დირექტორიები:");
-                            foreach (DirectoryInfo dir in directories)
-                            {
-                            Console.WriteLine($" 📁 {dir.Name} (შექმნის დრო: {dir.CreationTime.ToShortDateString()})");
-
-                            // ყველა ფაილის ჩვენება ამ დირექტორიაში
-                            FileInfo[] files = dir.GetFiles();
-                            foreach (FileInfo file in files)
-                            {
-                            Console.WriteLine($" 📄 {file.Name} ({file.Length} ბაიტი)");
-                            }
-                            }
-
-                            // მშობელი დირექტორიის ინფორმაცია
-                            if (dirInfo.Parent != null)
-                            {
-                            Console.WriteLine($"\nმშობელი დირექტორია: {dirInfo.Parent.Name}");
-                            }
-                            }
-
-                            static void CreateSampleFile(string filePath, string content)
-                            {
-                            File.WriteAllText(filePath, content);
-                            }
-                            }
-                        </div>
+                        // ❌ არასწორი - ზოგადი exception catching
+                        try
+                        {
+                        file.MoveTo(destinationPath);
+                        }
+                        catch (Exception ex)
+                        {
+                        Console.WriteLine("რაღაც შეცდომა მოხდა: " + ex.Message);
+                        }
                     </div>
+                </div>
 
-                    <h2>მაგალითი 4: Directory კლასის გამოყენება</h2>
+                <h2>უსაფრთხოება და Best Practices</h2>
 
-                    <div class="example-box">
-                        <h3>სტატიკური მეთოდებით დირექტორიებთან მუშაობა:</h3>
-                        <div class="code-block">
-                            using System;
-                            using System.IO;
+                <div class="warning">
+                    <h3>მნიშვნელოვანი უსაფრთხოების ასპექტები:</h3>
+                    <ul>
+                        <li><strong>Path Traversal თავიდან აცილება:</strong> Path.GetFullPath()
+                            გამოიყენეთ</li>
+                        <li><strong>წვდომის უფლებების შემოწმება:</strong>
+                            Directory/File.GetAccessControl()</li>
+                        <li><strong>Temp ფაილები:</strong> Path.GetTempFileName() გამოიყენეთ</li>
+                        <li><strong>სენსიტიური მონაცემები:</strong> არ დატოვოთ plain text-ში</li>
+                    </ul>
+                </div>
 
-                            class Program
-                            {
-                            static void Main()
-                            {
-                            string baseDir = @"C:\test\StaticDirectory";
+                <div class="theory-box">
+                    <h3>მეხსიერების ეფექტური გამოყენება:</h3>
+                    <div class="code-block">
+                        // ✅ სწორი - მეხსიერების ეფექტური გამოყენება
+                        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                        using (var reader = new StreamReader(stream))
+                        {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                        // ხაზის დამუშავება...
+                        }
+                        }
 
-                            Console.WriteLine("=== Directory კლასის მაგალითი ===");
-                            Console.WriteLine($"მიმდინარე დირექტორია: {Directory.GetCurrentDirectory()}");
-
-                            // დირექტორიის შექმნა
-                            if (!Directory.Exists(baseDir))
-                            {
-                            Directory.CreateDirectory(baseDir);
-                            Console.WriteLine($"დირექტორია შეიქმნა: {baseDir}");
-                            }
-
-                            // რამდენიმე ქვე-დირექტორიის შექმნა
-                            string[] subDirs = { "Folder1", "Folder2", "Folder3" };
-                            foreach (string subDir in subDirs)
-                            {
-                            string fullPath = Path.Combine(baseDir, subDir);
-                            Directory.CreateDirectory(fullPath);
-
-                            // ყველა ქვე-დირექტორიაში ფაილების შექმნა
-                            for (int i = 1; i <= 3; i++) { string fileName=$"file{i}.txt"; string
-                                filePath=Path.Combine(fullPath, fileName); File.WriteAllText(filePath, $"ეს არის ფაილი
-                                {i} დირექტორიაში {subDir}"); } } Console.WriteLine("\n===ყველა ფაილის ჩვენება===");
-        // ყველა ფაილის მოძიება (ყველა ქვე-დირექტორიაში)
-        string[] allFiles = Directory.GetFiles(baseDir, " *.txt", SearchOption.AllDirectories); foreach (string file in
-                                allFiles) { FileInfo fileInfo=new FileInfo(file); Console.WriteLine($"📄 {fileInfo.Name}
-                                - {fileInfo.DirectoryName} ({fileInfo.Length} ბაიტი)"); } Console.WriteLine("\n===ყველა
-                                დირექტორიის ჩვენება===");
-        // ყველა ქვე-დირექტორიის მოძიება
-        string[] allDirs = Directory.GetDirectories(baseDir, " *", SearchOption.AllDirectories); foreach (string dir in
-                                allDirs) { DirectoryInfo dirInfo=new DirectoryInfo(dir); Console.WriteLine($"📁
-                                {dirInfo.Name} - {dirInfo.FullName}"); } // განსაკუთრებული ფაილების მოძიება
-                                Console.WriteLine("\n==='.txt' ფაილების მოძიება===");
-        string[] txtFiles = Directory.GetFiles(baseDir, " *.txt", SearchOption.TopDirectoryOnly);
-                                Console.WriteLine($"მთავარ დირექტორიაში ნაპოვნია {txtFiles.Length} .txt ფაილი"); //
-                                დირექტორიის გადატანა string newLocation=@"C:\test\MovedDirectory"; if
-                                (Directory.Exists(newLocation)) { Directory.Delete(newLocation, true); }
-                                Directory.Move(baseDir, newLocation); Console.WriteLine($"\nდირექტორია გადატანილია:
-                                {newLocation}"); } } </div>
-                        </div>
-
-                        <h2>მაგალითი 5: კომპლექსური ფაილური სისტემის მენეჯერი</h2>
-
-                        <div class="example-box">
-                            <h3>ფაილური სისტემის მენეჯერი ყველა კლასის გამოყენებით:</h3>
-                            <div class="code-block">
-                                using System;
-                                using System.IO;
-                                using System.Linq;
-
-                                class FileSystemManager
-                                {
-                                static void Main()
-                                {
-                                string workingDirectory = @"C:\test\FileManager";
-
-                                // მუშა დირექტორიის შექმნა
-                                Directory.CreateDirectory(workingDirectory);
-
-                                Console.WriteLine("=== ფაილური სისტემის მენეჯერი ===\n");
-
-                                bool exit = false;
-                                while (!exit)
-                                {
-                                ShowMenu();
-                                string choice = Console.ReadLine();
-
-                                switch (choice)
-                                {
-                                case "1":
-                                CreateFileStructure(workingDirectory);
-                                break;
-                                case "2":
-                                ShowDirectoryInfo(workingDirectory);
-                                break;
-                                case "3":
-                                SearchFiles(workingDirectory);
-                                break;
-                                case "4":
-                                CopyFiles(workingDirectory);
-                                break;
-                                case "5":
-                                CleanupFiles(workingDirectory);
-                                break;
-                                case "6":
-                                exit = true;
-                                break;
-                                default:
-                                Console.WriteLine("არასწორი არჩევანი!");
-                                break;
-                                }
-
-                                if (!exit)
-                                {
-                                Console.WriteLine("\nდააჭირეთ ნებისმიერ ღილაკს გასაგრძელებლად...");
-                                Console.ReadKey();
-                                Console.Clear();
-                                }
-                                }
-                                }
-
-                                static void ShowMenu()
-                                {
-                                Console.WriteLine("აირჩიეთ ოპერაცია:");
-                                Console.WriteLine("1. ფაილური სტრუქტურის შექმნა");
-                                Console.WriteLine("2. დირექტორიის ინფორმაციის ჩვენება");
-                                Console.WriteLine("3. ფაილების ძიება");
-                                Console.WriteLine("4. ფაილების კოპირება");
-                                Console.WriteLine("5. ფაილების გაწმენდა");
-                                Console.WriteLine("6. გამოსვლა");
-                                Console.Write("თქვენი არჩევანი: ");
-                                }
-
-                                static void CreateFileStructure(string baseDir)
-                                {
-                                Console.WriteLine("ფაილური სტრუქტურის შექმნა...\n");
-
-                                // დირექტორიების შექმნა DirectoryInfo-ით
-                                DirectoryInfo mainDir = new DirectoryInfo(baseDir);
-
-                                DirectoryInfo documentsDir = mainDir.CreateSubdirectory("Documents");
-                                DirectoryInfo imagesDir = mainDir.CreateSubdirectory("Images");
-                                DirectoryInfo backupDir = mainDir.CreateSubdirectory("Backup");
-
-                                // ფაილების შექმნა FileInfo-ით
-                                CreateDocumentFile(documentsDir.FullName, "report.txt", "ეს არის ანგარიშის ფაილი");
-                                CreateDocumentFile(documentsDir.FullName, "notes.txt", "ჩანაწერები და შენიშვნები");
-                                CreateDocumentFile(documentsDir.FullName, "log.txt", GenerateLogContent());
-
-                                CreateDocumentFile(imagesDir.FullName, "photo1.jpg", "ფოტო 1 - მონაცემები");
-                                CreateDocumentFile(imagesDir.FullName, "photo2.png", "ფოტო 2 - მონაცემები");
-
-                                Console.WriteLine("ფაილური სტრუქტურა შეიქმნა წარმატებით!");
-                                }
-
-                                static void CreateDocumentFile(string directory, string fileName, string content)
-                                {
-                                FileInfo fileInfo = new FileInfo(Path.Combine(directory, fileName));
-
-                                using (StreamWriter writer = fileInfo.CreateText())
-                                {
-                                writer.WriteLine(content);
-                                writer.WriteLine($"შექმნის დრო: {DateTime.Now}");
-                                writer.WriteLine($"ზომა: {content.Length} სიმბოლო");
-                                }
-
-                                Console.WriteLine($"შეიქმნა: {fileInfo.Name}");
-                                }
-
-                                static string GenerateLogContent()
-                                {
-                                return $@"=== სისტემის ლოგი ===
-                                დრო: {DateTime.Now}
-                                მომხმარებელი: System
-                                ქმედება: ფაილების შექმნა
-                                სტატუსი: წარმატებული
-                                დეტალები: ფაილური სტრუქტურა შეიქმნა";
-                                }
-
-                                static void ShowDirectoryInfo(string baseDir)
-                                {
-                                Console.WriteLine("დირექტორიის ინფორმაცია:\n");
-
-                                DirectoryInfo dirInfo = new DirectoryInfo(baseDir);
-
-                                Console.WriteLine($"დირექტორია: {dirInfo.Name}");
-                                Console.WriteLine($"სრული მისამართი: {dirInfo.FullName}");
-                                Console.WriteLine($"შექმნის დრო: {dirInfo.CreationTime}");
-                                Console.WriteLine($"ბოლო ცვლილება: {dirInfo.LastWriteTime}");
-
-                                // ქვე-დირექტორიების ინფორმაცია
-                                DirectoryInfo[] subDirs = dirInfo.GetDirectories();
-                                Console.WriteLine($"\nქვე-დირექტორიები ({subDirs.Length}):");
-
-                                foreach (DirectoryInfo subDir in subDirs)
-                                {
-                                FileInfo[] files = subDir.GetFiles();
-                                long totalSize = files.Sum(f => f.Length);
-
-                                Console.WriteLine($" 📁 {subDir.Name}");
-                                Console.WriteLine($" ფაილები: {files.Length}");
-                                Console.WriteLine($" მთლიანი ზომა: {totalSize} ბაიტი");
-
-                                foreach (FileInfo file in files)
-                                {
-                                Console.WriteLine($" 📄 {file.Name} ({file.Length} ბაიტი)");
-                                }
-                                }
-                                }
-
-                                static void SearchFiles(string baseDir)
-                                {
-                                Console.Write("შეიყვანეთ საძიებო პატერნი (მაგ: *.txt): ");
-                                string pattern = Console.ReadLine();
-
-                                if (string.IsNullOrWhiteSpace(pattern))
-                                pattern = "*.*";
-
-                                Console.WriteLine($"\nძიება: {pattern}\n");
-
-                                try
-                                {
-                                string[] files = Directory.GetFiles(baseDir, pattern, SearchOption.AllDirectories);
-
-                                Console.WriteLine($"ნაპოვნია {files.Length} ფაილი:");
-
-                                foreach (string file in files)
-                                {
-                                FileInfo fileInfo = new FileInfo(file);
-                                Console.WriteLine($"📄 {fileInfo.Name}");
-                                Console.WriteLine($" მისამართი: {fileInfo.DirectoryName}");
-                                Console.WriteLine($" ზომა: {fileInfo.Length} ბაიტი");
-                                Console.WriteLine($" ბოლო ცვლილება: {fileInfo.LastWriteTime}");
-                                Console.WriteLine();
-                                }
-                                }
-                                catch (Exception ex)
-                                {
-                                Console.WriteLine($"შეცდომა ძიებისას: {ex.Message}");
-                                }
-                                }
-
-                                static void CopyFiles(string baseDir)
-                                {
-                                Console.WriteLine("ფაილების კოპირება Backup დირექტორიაში...\n");
-
-                                string backupDir = Path.Combine(baseDir, "Backup");
-                                Directory.CreateDirectory(backupDir);
-
-                                // ყველა .txt ფაილის კოპირება
-                                string[] txtFiles = Directory.GetFiles(baseDir, "*.txt", SearchOption.AllDirectories);
-
-                                foreach (string file in txtFiles)
-                                {
-                                FileInfo sourceFile = new FileInfo(file);
-
-                                // თუ ფაილი უკვე backup დირექტორიაშია, გამოვტოვოთ
-                                if (sourceFile.DirectoryName.Contains("Backup"))
-                                continue;
-
-                                string backupFileName = $"backup_{DateTime.Now:yyyyMMdd}_{sourceFile.Name}";
-                                string backupPath = Path.Combine(backupDir, backupFileName);
-
-                                sourceFile.CopyTo(backupPath, true);
-                                Console.WriteLine($"დაკოპირდა: {sourceFile.Name} -> {backupFileName}");
-                                }
-
-                                Console.WriteLine("\nკოპირება დასრულდა!");
-                                }
-
-                                static void CleanupFiles(string baseDir)
-                                {
-                                Console.WriteLine("ძველი backup ფაილების გაწმენდა...\n");
-
-                                string backupDir = Path.Combine(baseDir, "Backup");
-
-                                if (!Directory.Exists(backupDir))
-                                {
-                                Console.WriteLine("Backup დირექტორია არ არსებობს.");
-                                return;
-                                }
-
-                                DirectoryInfo backupDirInfo = new DirectoryInfo(backupDir);
-                                FileInfo[] backupFiles = backupDirInfo.GetFiles();
-
-                                // 1 დღეზე ძველი ფაილების წაშლა
-                                DateTime cutoffDate = DateTime.Now.AddDays(-1);
-                                int deletedCount = 0;
-
-                                foreach (FileInfo file in backupFiles)
-                                {
-                                if (file.CreationTime < cutoffDate) { Console.WriteLine($"იშლება: {file.Name}
-                                    (შექმნილია: {file.CreationTime})"); file.Delete(); deletedCount++; } }
-                                    Console.WriteLine($"\nწაიშალა {deletedCount} ძველი ფაილი."); } } </div>
-                            </div>
-                        </div>
+                        // ❌ არასწორი - მთელი ფაილი მეხსიერებაში
+                        string[] allLines = File.ReadAllLines(path); // დიდი ფაილებისთვის პრობლემატური
                     </div>
-
-                    <!-- კოდის მაგალითები -->
-                    <div class="section">
-                        <div class="section-header" onclick="toggleSection('code-examples')">
-                            <span>🔨 დამატებითი კოდის მაგალითები</span>
-                            <span class="toggle-icon">▼</span>
-                        </div>
-                        <div class="section-content" id="code-examples">
-                            <h2>მაგალითი: ფაილების ფილტრაცია და სორტირება</h2>
-
-                            <div class="code-block">
-                                using System;
-                                using System.IO;
-                                using System.Linq;
-
-                                class FileFilterExample
-                                {
-                                static void Main()
-                                {
-                                string directory = @"C:\test\FilterExample";
-                                Directory.CreateDirectory(directory);
-
-                                // ტესტ ფაილების შექმნა
-                                CreateTestFiles(directory);
-
-                                Console.WriteLine("=== ფაილების ფილტრაცია და სორტირება ===\n");
-
-                                DirectoryInfo dirInfo = new DirectoryInfo(directory);
-                                FileInfo[] allFiles = dirInfo.GetFiles();
-
-                                // ზომის მიხედვით სორტირება (კლებადობით)
-                                var largestFiles = allFiles
-                                .OrderByDescending(f => f.Length)
-                                .Take(5);
-
-                                Console.WriteLine("5 ყველაზე დიდი ფაილი:");
-                                foreach (var file in largestFiles)
-                                {
-                                Console.WriteLine($"📄 {file.Name} - {file.Length} ბაიტი");
-                                }
-
-                                // ბოლოს შეცვლილი ფაილები
-                                var recentFiles = allFiles
-                                .Where(f => f.LastWriteTime > DateTime.Now.AddDays(-1))
-                                .OrderBy(f => f.LastWriteTime);
-
-                                Console.WriteLine("\nბოლო 24 საათში შეცვლილი ფაილები:");
-                                foreach (var file in recentFiles)
-                                {
-                                Console.WriteLine($"📄 {file.Name} - {file.LastWriteTime}");
-                                }
-
-                                // გაფართოების მიხედვით დაჯგუფება
-                                var filesByExtension = allFiles
-                                .GroupBy(f => f.Extension.ToLower())
-                                .OrderBy(g => g.Key);
-
-                                Console.WriteLine("\nფაილები გაფართოების მიხედვით:");
-                                foreach (var group in filesByExtension)
-                                {
-                                Console.WriteLine($"\n{group.Key} ({group.Count()} ფაილი):");
-                                foreach (var file in group.OrderBy(f => f.Name))
-                                {
-                                Console.WriteLine($" 📄 {file.Name}");
-                                }
-                                }
-                                }
-
-                                static void CreateTestFiles(string directory)
-                                {
-                                Random random = new Random();
-                                string[] extensions = { ".txt", ".log", ".dat", ".tmp", ".bak" };
-                                string[] names = { "document", "report", "data", "backup", "temp", "log", "config" };
-
-                                for (int i = 0; i < 15; i++) { string
-                                    fileName=$"{names[random.Next(names.Length)]}{i}{extensions[random.Next(extensions.Length)]}";
-                                    string filePath=Path.Combine(directory, fileName); // შემთხვევითი ზომის შიგთავსი
-                                    string content=new string('X', random.Next(100, 2000)); File.WriteAllText(filePath,
-                                    content); // შემთხვევითი თარიღის დაყენება DateTime
-                                    randomDate=DateTime.Now.AddDays(-random.Next(0, 10)).AddHours(-random.Next(0, 24));
-                                    File.SetLastWriteTime(filePath, randomDate); } } } </div>
-
-                                    <h2>მაგალითი: ფაილების მონიტორინგი</h2>
-
-                                    <div class="code-block">
-                                        using System;
-                                        using System.IO;
-
-                                        class FileMonitorExample
-                                        {
-                                        private static FileSystemWatcher watcher;
-
-                                        static void Main()
-                                        {
-                                        string monitorPath = @"C:\test\Monitor";
-                                        Directory.CreateDirectory(monitorPath);
-
-                                        Console.WriteLine($"ფაილების მონიტორინგი: {monitorPath}");
-                                        Console.WriteLine("დააჭირეთ 'q'-ს გასასვლელად\n");
-
-                                        // FileSystemWatcher-ის კონფიგურაცია
-                                        watcher = new FileSystemWatcher(monitorPath);
-
-                                        // ყველა ტიპის ცვლილების მონიტორინგი
-                                        watcher.NotifyFilter = NotifyFilters.CreationTime
-                                        | NotifyFilters.LastWrite
-                                        | NotifyFilters.FileName
-                                        | NotifyFilters.DirectoryName;
-
-                                        // ყველა ფაილის მონიტორინგი
-                                        watcher.Filter = "*.*";
-
-                                        // ივენთების დაერთება
-                                        watcher.Created += OnCreated;
-                                        watcher.Changed += OnChanged;
-                                        watcher.Deleted += OnDeleted;
-                                        watcher.Renamed += OnRenamed;
-
-                                        // მონიტორინგის დაწყება
-                                        watcher.EnableRaisingEvents = true;
-
-                                        // ტესტ ფაილების შექმნა
-                                        CreateTestMonitorFiles(monitorPath);
-
-                                        // მომხმარებლის შეყვანის მოლოდინი
-                                        char key;
-                                        do
-                                        {
-                                        key = Console.ReadKey(true).KeyChar;
-                                        } while (key != 'q' && key != 'Q');
-
-                                        watcher.Dispose();
-                                        Console.WriteLine("\nმონიტორინგი გათიშულია.");
-                                        }
-
-                                        private static void OnCreated(object sender, FileSystemEventArgs e)
-                                        {
-                                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] ✅ შეიქმნა: {e.Name}");
-                                        ShowFileInfo(e.FullPath);
-                                        }
-
-                                        private static void OnChanged(object sender, FileSystemEventArgs e)
-                                        {
-                                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] ✏️ შეცვლილია: {e.Name}");
-                                        ShowFileInfo(e.FullPath);
-                                        }
-
-                                        private static void OnDeleted(object sender, FileSystemEventArgs e)
-                                        {
-                                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] ❌ წაიშალა: {e.Name}");
-                                        }
-
-                                        private static void OnRenamed(object sender, RenamedEventArgs e)
-                                        {
-                                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] 🔄 გადაკრებილია: {e.OldName} ->
-                                        {e.Name}");
-                                        }
-
-                                        private static void ShowFileInfo(string filePath)
-                                        {
-                                        try
-                                        {
-                                        if (File.Exists(filePath))
-                                        {
-                                        FileInfo fileInfo = new FileInfo(filePath);
-                                        Console.WriteLine($" 📊 ზომა: {fileInfo.Length} ბაიტი, ბოლო ცვლილება:
-                                        {fileInfo.LastWriteTime}");
-                                        }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                        Console.WriteLine($" ⚠️ შეცდომა ინფორმაციის მიღებისას: {ex.Message}");
-                                        }
-                                        }
-
-                                        private static void CreateTestMonitorFiles(string directory)
-                                        {
-                                        Console.WriteLine("ტესტ ფაილების შექმნა...\n");
-
-                                        // 3 წამში ფაილების შექმნა
-                                        System.Threading.Timer timer = new System.Threading.Timer(_ =>
-                                        {
-                                        try
-                                        {
-                                        string fileName = $"test_{DateTime.Now:HHmmss}.txt";
-                                        string filePath = Path.Combine(directory, fileName);
-                                        File.WriteAllText(filePath, $"ტესტ ფაილი შექმნილია: {DateTime.Now}");
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                        Console.WriteLine($"შეცდომა ტესტ ფაილის შექმნისას: {ex.Message}");
-                                        }
-                                        }, null, TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5));
-
-                                        // ტაიმერი გავაჩეროთ 20 წამში
-                                        System.Threading.Timer stopTimer = new System.Threading.Timer(_ =>
-                                        {
-                                        timer.Dispose();
-                                        Console.WriteLine("ტესტ ფაილების შექმნა შეწყდა.\n");
-                                        }, null, TimeSpan.FromSeconds(20), Timeout.InfiniteTimeSpan);
-                                        }
-                                        }
-                                    </div>
-                            </div>
-                        </div>
-
-                        <!-- საშინაო დავალება -->
-                        <div class="section">
-                            <div class="section-header" onclick="toggleSection('homework')">
-                                <span>📝 საშინაო დავალება</span>
-                                <span class="toggle-icon">▼</span>
-                            </div>
-                            <div class="section-content" id="homework">
-                                <div class="homework-box">
-                                    <h2>საშინაო დავალება: ფაილური ორგანაიზერი</h2>
-
-                                    <p><strong>მიზანი:</strong> შექმენით C# პროგრამა, რომელიც ავტომატურად დაალაგებს
-                                        ფაილებს მათი ტიპის მიხედვით.</p>
-
-                                    <h3>ძირითადი მოთხოვნები:</h3>
-
-                                    <div class="task-item">
-                                        <h4>1. ძირითადი ფუნქციონალი (40 ქულა)</h4>
-                                        <ul>
-                                            <li>შექმენით პროგრამა, რომელიც მიიღებს მისამართს დირექტორიისა</li>
-                                            <li>პროგრამამ უნდა შექმნას ქვე-დირექტორიები: "Documents", "Images",
-                                                "Videos", "Music", "Others"</li>
-                                            <li>ყველა ფაილი უნდა გადატანილი იქნას შესაბამის ქვე-დირექტორიაში მისი
-                                                გაფართოების მიხედვით</li>
-                                            <li>გამოიყენეთ როგორც FileInfo/DirectoryInfo, ასევე File/Directory კლასები
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <h4>2. ფაილების კატეგორიზაცია (20 ქულა)</h4>
-                                        <ul>
-                                            <li><strong>Documents:</strong> .txt, .doc, .docx, .pdf, .rtf</li>
-                                            <li><strong>Images:</strong> .jpg, .jpeg, .png, .gif, .bmp</li>
-                                            <li><strong>Videos:</strong> .mp4, .avi, .mkv, .wmv, .mov</li>
-                                            <li><strong>Music:</strong> .mp3, .wav, .flac, .aac</li>
-                                            <li><strong>Others:</strong> ყველა სხვა ფაილი</li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <h4>3. ანგარიშგება (20 ქულა)</h4>
-                                        <ul>
-                                            <li>შექმენით ანგარიში, რომელიც შეიცავს:</li>
-                                            <li>დამუშავებული ფაილების რაოდენობას</li>
-                                            <li>ყველა კატეგორიის ფაილების რაოდენობას</li>
-                                            <li>მთლიან ზომას ყველა კატეგორიისთვის</li>
-                                            <li>ანგარიში შეინახოს "OrganizationReport.txt" ფაილში</li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <h4>4. შეცდომების მართვა (10 ქულა)</h4>
-                                        <ul>
-                                            <li>დაამუშავეთ შესაძლო შეცდომები (ფაილი დაკავებულია, წვდომის უფლება არ არის,
-                                                და ა.შ.)</li>
-                                            <li>აჩვენეთ მომხმარებელს შესაბამისი შეტყობინებები</li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <h4>5. დამატებითი ფუნქციები (ბონუსი 10 ქულა)</h4>
-                                        <ul>
-                                            <li>დუბლიკატი ფაილების აღმოჩენა (ერთნაირი სახელი და ზომა)</li>
-                                            <li>ძველი ფაილების (1 თვეზე მეტი) ცალკე "Archive" ფოლდერში გადატანა</li>
-                                            <li>ფაილების ზომის მიხედვით დალაგება თითოეულ კატეგორიაში</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="homework-box">
-                                    <h3>შესრულების ინსტრუქციები:</h3>
-                                    <ol>
-                                        <li><strong>პროექტის შექმნა:</strong> შექმენით ახალი C# Console Application
-                                            პროექტი</li>
-                                        <li><strong>კოდის დაწერა:</strong> დაწერეთ FileOrganizer კლასი მოცემული
-                                            სტრუქტურის მიხედვით</li>
-                                        <li><strong>ტესტირება:</strong> შექმენით ტესტ დირექტორია სხვადასხვა ტიპის
-                                            ფაილებით</li>
-                                        <li><strong>ანგარიშის შემოწმება:</strong> დარწმუნდით, რომ OrganizationReport.txt
-                                            სწორად იქმნება</li>
-                                        <li><strong>შეცდომების ტესტირება:</strong> შეამოწმეთ რა ხდება არასწორი
-                                            მისამართის შეყვანისას</li>
-                                    </ol>
-                                </div>
-
-                                <div class="homework-box">
-                                    <h3>შეფასების კრიტერიუმები:</h3>
-                                    <ul>
-                                        <li><strong>კოდის ხარისხი (20%):</strong> სუფთა, კომენტირებული კოდი</li>
-                                        <li><strong>ფუნქციონალურობა (40%):</strong> ყველა მოთხოვნის შესრულება</li>
-                                        <li><strong>შეცდომების მართვა (20%):</strong> try-catch ბლოკების სწორი
-                                            გამოყენება</li>
-                                        <li><strong>ანგარიშგება (20%):</strong> დეტალური და ინფორმატიული ანგარიშის
-                                            შექმნა</li>
-                                    </ul>
-                                </div>
-
-                                <div class="homework-box">
-                                    <h3>გაგზავნის ინსტრუქცია:</h3>
-                                    <p><strong>ვადა:</strong> მომავალი სესიიდან 1 კვირა</p>
-                                    <p><strong>ჩასაბარებელი ფაილები:</strong></p>
-                                    <ul>
-                                        <li>Program.cs - თქვენი მთავარი კოდი</li>
-                                        <li>Screenshot.png - სკრინშოტი მუშა პროგრამისა</li>
-                                        <li>TestReport.txt - ტესტირების ანგარიში</li>
-                                    </ul>
-                                </div>
-
-                                <div class="warning">
-                                    <strong>მნიშვნელოვანი შენიშვნები:</strong>
-                                    <ul>
-                                        <li>ყოველთვის გამოიყენეთ using statements ფაილებთან მუშაობისას</li>
-                                        <li>შეამოწმეთ ფაილის არსებობა წაშლისა და გადატანის წინ</li>
-                                        <li>არ დაავიწყდეთ Refresh() მეთოდის გამოძახება FileInfo/DirectoryInfo
-                                            ობიექტებისთვის</li>
-                                        <li>ბექაპი გაუკეთეთ ტესტ ფაილებს ძირითადი ტესტირების წინ</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- დამატებითი რესურსები -->
-                        <div class="section">
-                            <div class="section-header" onclick="toggleSection('resources')">
-                                <span>📚 დამატებითი რესურსები და რჩევები</span>
-                                <span class="toggle-icon">▼</span>
-                            </div>
-                            <div class="section-content" id="resources">
-                                <h2>სასარგებლო რჩევები</h2>
-
-                                <div class="theory-box">
-                                    <h3>როდის გამოვიყენოთ FileInfo vs File:</h3>
-                                    <ul>
-                                        <li><strong>გამოიყენეთ FileInfo როდესაც:</strong>
-                                            <ul>
-                                                <li>ერთ ფაილთან რამდენჯერმე მუშაობთ</li>
-                                                <li>ფაილის მრავალი თვისება გჭირდებათ</li>
-                                                <li>ობიექტ-ორიენტირებული მიდგომა გირჩევნიათ</li>
-                                            </ul>
-                                        </li>
-                                        <li><strong>გამოიყენეთ File როდესაც:</strong>
-                                            <ul>
-                                                <li>ერთჯერადი, სწრაფი ოპერაციები გჭირდებათ</li>
-                                                <li>მეხსიერების ეკონომია მნიშვნელოვანია</li>
-                                                <li>მარტივი utility ფუნქციები იწერთ</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="theory-box">
-                                    <h3>შესრულების ოპტიმიზაცია:</h3>
-                                    <ul>
-                                        <li><strong>დიდი ფაილებისთვის:</strong> გამოიყენეთ FileStream buffer-ით</li>
-                                        <li><strong>მრავალი ფაილისთვის:</strong> მარტო Directory.GetFiles() ერთხელ
-                                            გამოიძახეთ</li>
-                                        <li><strong>Recursive ძიებისთვის:</strong> SearchOption.AllDirectories
-                                            გამოიყენეთ</li>
-                                        <li><strong>მონიტორინგისთვის:</strong> FileSystemWatcher უფრო ეფექტურია მუდმივი
-                                            polling-ისა</li>
-                                    </ul>
-                                </div>
-
-                                <div class="example-box">
-                                    <h3>ხშირი შეცდომები და მათი აცილება:</h3>
-                                    <ul>
-                                        <li><strong>Path.Combine() გამოიყენეთ:</strong> არა string concatenation</li>
-                                        <li><strong>Using statements:</strong> ყოველთვის გამოიყენეთ IDisposable
-                                            რესურსებისთვის</li>
-                                        <li><strong>Exception handling:</strong> UnauthorizedAccessException,
-                                            IOException დაამუშავეთ</li>
-                                        <li><strong>File locks:</strong> შეამოწმეთ ფაილი დაკავებული თუ არა რა</li>
-                                    </ul>
-                                </div>
-
-                                <h2>პრაქტიკული რჩევები კოდის ხარისხისთვის</h2>
-
-                                <div class="method-card">
-                                    <div class="method-name">კოდის სტრუქტურა:</div>
-                                    <div class="code-block">
-                                        // ✅ სწორი - ზოგადი მეთოდების გამოყენება
-                                        public static class FileHelper
-                                        {
-                                        public static bool IsValidFile(string filePath)
-                                        {
-                                        return File.Exists(filePath) && new FileInfo(filePath).Length > 0;
-                                        }
-
-                                        public static string GetFileCategory(string extension)
-                                        {
-                                        var categories = new Dictionary<string, string[]>
-                                            {
-                                            {"Documents", new[] {".txt", ".doc", ".pdf"}},
-                                            {"Images", new[] {".jpg", ".png", ".gif"}},
-                                            // ...
-                                            };
-
-                                            return categories.FirstOrDefault(c =>
-                                            c.Value.Contains(extension.ToLower())).Key ?? "Others";
-                                            }
-                                            }
-
-                                            // ❌ არასწორი - გამეორებადი კოდი
-                                            if (file.EndsWith(".txt") || file.EndsWith(".doc") || file.EndsWith(".pdf"))
-                                            {
-                                            // documents...
-                                            }
-                                            if (file.EndsWith(".jpg") || file.EndsWith(".png") || file.EndsWith(".gif"))
-                                            {
-                                            // images...
-                                            }
-                                    </div>
-                                </div>
-
-                                <div class="method-card">
-                                    <div class="method-name">შეცდომების სწორი მართვა:</div>
-                                    <div class="code-block">
-                                        // ✅ სწორი - კონკრეტული exceptions
-                                        try
-                                        {
-                                        file.MoveTo(destinationPath);
-                                        }
-                                        catch (UnauthorizedAccessException)
-                                        {
-                                        Console.WriteLine("არ გაქვთ წვდომის უფლება ამ ფაილზე");
-                                        }
-                                        catch (DirectoryNotFoundException)
-                                        {
-                                        Console.WriteLine("დანიშნულების დირექტორია არ არსებობს");
-                                        }
-                                        catch (IOException ex) when (ex.HResult == -2147024864) // File in use
-                                        {
-                                        Console.WriteLine("ფაილი გამოიყენება სხვა პროცესის მიერ");
-                                        }
-
-                                        // ❌ არასწორი - ზოგადი exception catching
-                                        try
-                                        {
-                                        file.MoveTo(destinationPath);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                        Console.WriteLine("რაღაც შეცდომა მოხდა: " + ex.Message);
-                                        }
-                                    </div>
-                                </div>
-
-                                <h2>უსაფრთხოება და Best Practices</h2>
-
-                                <div class="warning">
-                                    <h3>მნიშვნელოვანი უსაფრთხოების ასპექტები:</h3>
-                                    <ul>
-                                        <li><strong>Path Traversal თავიდან აცილება:</strong> Path.GetFullPath()
-                                            გამოიყენეთ</li>
-                                        <li><strong>წვდომის უფლებების შემოწმება:</strong>
-                                            Directory/File.GetAccessControl()</li>
-                                        <li><strong>Temp ფაილები:</strong> Path.GetTempFileName() გამოიყენეთ</li>
-                                        <li><strong>სენსიტიური მონაცემები:</strong> არ დატოვოთ plain text-ში</li>
-                                    </ul>
-                                </div>
-
-                                <div class="theory-box">
-                                    <h3>მეხსიერების ეფექტური გამოყენება:</h3>
-                                    <div class="code-block">
-                                        // ✅ სწორი - მეხსიერების ეფექტური გამოყენება
-                                        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                                        using (var reader = new StreamReader(stream))
-                                        {
-                                        string line;
-                                        while ((line = reader.ReadLine()) != null)
-                                        {
-                                        // ხაზის დამუშავება...
-                                        }
-                                        }
-
-                                        // ❌ არასწორი - მთელი ფაილი მეხსიერებაში
-                                        string[] allLines = File.ReadAllLines(path); // დიდი ფაილებისთვის პრობლემატური
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- კითხვები და პასუხები -->
-                        <div class="section">
-                            <div class="section-header" onclick="toggleSection('qa')">
-                                <span>❓ ხშირი კითხვები და პასუხები</span>
-                                <span class="toggle-icon">▼</span>
-                            </div>
-                            <div class="section-content" id="qa">
-                                <div class="method-card">
-                                    <div class="method-name">1. რატომ უნდა გამოვიყენო using statement?</div>
-                                    <p><strong>პასუხი:</strong> using statement ავტომატურად ანთავისუფლებს რესურსებს
-                                        (ფაილების handles, მეხსიერება) კოდის ბლოკის დასრულების შემდეგ, მაშინაც კი თუ
-                                        exception მოხდება. ეს აცილებს მეხსიერების გადინებას და ფაილების "ჩაკეტვას".</p>
-                                </div>
-
-                                <div class="method-card">
-                                    <div class="method-name">2. როგორ შევამოწმო ფაილი დაკავებული ხომ არ არის?</div>
-                                    <p><strong>პასუხი:</strong></p>
-                                    <div class="code-block">
-                                        public static bool IsFileLocked(string filePath)
-                                        {
-                                        try
-                                        {
-                                        using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read,
-                                        FileShare.None))
-                                        {
-                                        stream.Close();
-                                        }
-                                        }
-                                        catch (IOException)
-                                        {
-                                        return true; // ფაილი დაკავებულია
-                                        }
-                                        return false;
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="method-card">
-                                    <div class="method-name">3. რა განსხვავებაა SearchOption.TopDirectoryOnly და
-                                        AllDirectories შორის?</div>
-                                    <p><strong>პასუხი:</strong></p>
-                                    <ul>
-                                        <li><strong>TopDirectoryOnly:</strong> ეძებს მხოლოდ მითითებულ დირექტორიაში,
-                                            ქვე-დირექტორიებში არა</li>
-                                        <li><strong>AllDirectories:</strong> ეძებს მითითებული დირექტორიისა და მისი ყველა
-                                            ქვე-დირექტორიის ჩათვლით (recursive)</li>
-                                    </ul>
-                                </div>
-
-                                <div class="method-card">
-                                    <div class="method-name">4. როგორ გავიგო ფაილის რეალური ტიპი, არა მარტო extension?
-                                    </div>
-                                    <p><strong>პასუხი:</strong> Windows-ში შეგიძლიათ P/Invoke გამოიყენოთ, ან third-party
-                                        ბიბლიოთეკები:</p>
-                                    <div class="code-block">
-                                        // File signature (Magic Numbers) შემოწმება
-                                        public static bool IsPdfFile(string filePath)
-                                        {
-                                        byte[] pdfSignature = { 0x25, 0x50, 0x44, 0x46 }; // %PDF
-
-                                        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                                        {
-                                        byte[] buffer = new byte[4];
-                                        fs.Read(buffer, 0, 4);
-                                        return buffer.SequenceEqual(pdfSignature);
-                                        }
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="method-card">
-                                    <div class="method-name">5. როგორ ვამუშაო ძალიან დიდ ფაილებს?</div>
-                                    <p><strong>პასუხი:</strong> გამოიყენეთ streaming და chunked reading:</p>
-                                    <div class="code-block">
-                                        public static void ProcessLargeFile(string filePath)
-                                        {
-                                        const int bufferSize = 64 * 1024; // 64KB chunks
-
-                                        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                                        {
-                                        byte[] buffer = new byte[bufferSize];
-                                        int bytesRead;
-
-                                        while ((bytesRead = fs.Read(buffer, 0, bufferSize)) > 0)
-                                        {
-                                        // buffer-ის დამუშავება...
-                                        ProcessChunk(buffer, bytesRead);
-                                        }
-                                        }
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="method-card">
-                                    <div class="method-name">6. როგორ ვაკეთო atomic file operations?</div>
-                                    <p><strong>პასუხი:</strong> გამოიყენეთ temp file და შემდეგ rename:</p>
-                                    <div class="code-block">
-                                        public static void WriteFileSafely(string filePath, string content)
-                                        {
-                                        string tempPath = Path.GetTempFileName();
-
-                                        try
-                                        {
-                                        // ჯერ temp ფაილში ჩაწერე
-                                        File.WriteAllText(tempPath, content);
-
-                                        // შემდეგ rename (atomic operation)
-                                        File.Move(tempPath, filePath);
-                                        }
-                                        catch
-                                        {
-                                        // თუ შეცდომა მოხდა, temp ფაილი წავშალოთ
-                                        if (File.Exists(tempPath))
-                                        File.Delete(tempPath);
-                                        throw;
-                                        }
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- კითხვები და პასუხები -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('qa')">
+                <span>❓ ხშირი კითხვები და პასუხები</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="qa">
+                <div class="method-card">
+                    <div class="method-name">1. რატომ უნდა გამოვიყენო using statement?</div>
+                    <p><strong>პასუხი:</strong> using statement ავტომატურად ანთავისუფლებს რესურსებს
+                        (ფაილების handles, მეხსიერება) კოდის ბლოკის დასრულების შემდეგ, მაშინაც კი თუ
+                        exception მოხდება. ეს აცილებს მეხსიერების გადინებას და ფაილების "ჩაკეტვას".</p>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-name">2. როგორ შევამოწმო ფაილი დაკავებული ხომ არ არის?</div>
+                    <p><strong>პასუხი:</strong></p>
+                    <div class="code-block">
+                        public static bool IsFileLocked(string filePath)
+                        {
+                        try
+                        {
+                        using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read,
+                        FileShare.None))
+                        {
+                        stream.Close();
+                        }
+                        }
+                        catch (IOException)
+                        {
+                        return true; // ფაილი დაკავებულია
+                        }
+                        return false;
+                        }
                     </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-name">3. რა განსხვავებაა SearchOption.TopDirectoryOnly და
+                        AllDirectories შორის?</div>
+                    <p><strong>პასუხი:</strong></p>
+                    <ul>
+                        <li><strong>TopDirectoryOnly:</strong> ეძებს მხოლოდ მითითებულ დირექტორიაში,
+                            ქვე-დირექტორიებში არა</li>
+                        <li><strong>AllDirectories:</strong> ეძებს მითითებული დირექტორიისა და მისი ყველა
+                            ქვე-დირექტორიის ჩათვლით (recursive)</li>
+                    </ul>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-name">4. როგორ გავიგო ფაილის რეალური ტიპი, არა მარტო extension?
+                    </div>
+                    <p><strong>პასუხი:</strong> Windows-ში შეგიძლიათ P/Invoke გამოიყენოთ, ან third-party
+                        ბიბლიოთეკები:</p>
+                    <div class="code-block">
+                        // File signature (Magic Numbers) შემოწმება
+                        public static bool IsPdfFile(string filePath)
+                        {
+                        byte[] pdfSignature = { 0x25, 0x50, 0x44, 0x46 }; // %PDF
+
+                        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                        {
+                        byte[] buffer = new byte[4];
+                        fs.Read(buffer, 0, 4);
+                        return buffer.SequenceEqual(pdfSignature);
+                        }
+                        }
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-name">5. როგორ ვამუშაო ძალიან დიდ ფაილებს?</div>
+                    <p><strong>პასუხი:</strong> გამოიყენეთ streaming და chunked reading:</p>
+                    <div class="code-block">
+                        public static void ProcessLargeFile(string filePath)
+                        {
+                        const int bufferSize = 64 * 1024; // 64KB chunks
+
+                        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                        {
+                        byte[] buffer = new byte[bufferSize];
+                        int bytesRead;
+
+                        while ((bytesRead = fs.Read(buffer, 0, bufferSize)) > 0)
+                        {
+                        // buffer-ის დამუშავება...
+                        ProcessChunk(buffer, bytesRead);
+                        }
+                        }
+                        }
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-name">6. როგორ ვაკეთო atomic file operations?</div>
+                    <p><strong>პასუხი:</strong> გამოიყენეთ temp file და შემდეგ rename:</p>
+                    <div class="code-block">
+                        public static void WriteFileSafely(string filePath, string content)
+                        {
+                        string tempPath = Path.GetTempFileName();
+
+                        try
+                        {
+                        // ჯერ temp ფაილში ჩაწერე
+                        File.WriteAllText(tempPath, content);
+
+                        // შემდეგ rename (atomic operation)
+                        File.Move(tempPath, filePath);
+                        }
+                        catch
+                        {
+                        // თუ შეცდომა მოხდა, temp ფაილი წავშალოთ
+                        if (File.Exists(tempPath))
+                        File.Delete(tempPath);
+                        throw;
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
